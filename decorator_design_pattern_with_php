@@ -1,0 +1,67 @@
+<?php
+
+// Real example of decorator design pattern
+
+interface softwareHouseService {
+	
+	public function Service();
+	
+}
+
+class LogoService implements softwareHouseService{
+	
+	public function Service () {
+		return "Logo Design";
+	}
+	
+}
+
+class WebService implements softwareHouseService{
+	
+	protected $injection;
+	
+	public function __construct(softwareHouseService $softwareHouseService) {
+		
+		$this->injection = $softwareHouseService;
+		
+	}
+	
+
+	
+	public function Service() {
+		
+		return $this->injection->Service()." and web Service";
+		
+	}
+	
+}
+
+class SeoService implements softwareHouseService{
+	
+	protected $injection;
+	
+	public function __construct(softwareHouseService $softwareHouseService) {
+		
+		$this->injection = $softwareHouseService;
+		
+	}
+	
+
+	
+	public function Service() {
+		
+		return $this->injection->Service()." and seo Service";
+		
+	}
+	
+}
+
+
+
+
+echo ( new SeoService(new  WebService( new LogoService() ) ) )->Service();
+
+// If you need to call by making a root object
+// $logo = new SeoServices( new WebService( new LogoService() ) );
+// echo  $logo->Service();
+
